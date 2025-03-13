@@ -1,0 +1,88 @@
+package CalculadoraLojaPlantas;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class LojaPlantas {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> registroVendas = new ArrayList<>();
+        int opcao;
+
+        do {
+            System.out.println("=== Loja de Plantas da Dona Gabrielinha ===");
+            System.out.println("[1] - Calcular Preço Total");
+            System.out.println("[2] - Calcular Troco");
+            System.out.println("[3] - Ver Registro de Vendas");
+            System.out.println("[4] - Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    calcularPrecoTotal(scanner, registroVendas);
+                    break;
+                case 2:
+                    calcularTroco(scanner);
+                    break;
+                case 3:
+                    mostrarVendas(registroVendas);
+                    break;
+                case 4:
+                    System.out.println("Saindo... Obrigado!");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (opcao != 4);
+
+        scanner.close();
+    }
+
+    public static void calcularPrecoTotal(Scanner scanner, List<String> registroVendas) {
+        System.out.print("Quantidade de plantas: ");
+        int qtd = scanner.nextInt();
+        System.out.print("Preço unitário: ");
+        double preco = scanner.nextDouble();
+
+        double total = qtd * preco;
+        double desconto = 0;
+
+        if (qtd > 10) {
+            desconto = total * 0.05;
+            total -= desconto;
+        }
+
+        System.out.println("Total: R$ " + total);
+        if (desconto > 0) {
+            System.out.println("Desconto aplicado: R$ " + desconto);
+        }
+
+        registroVendas.add("Qtd: " + qtd + " | Preço Unitário: " + preco + " | Desconto: " + desconto + " | Total: " + total);
+    }
+
+    public static void calcularTroco(Scanner scanner) {
+        System.out.print("Valor recebido: ");
+        double recebido = scanner.nextDouble();
+        System.out.print("Valor da compra: ");
+        double total = scanner.nextDouble();
+
+        if (recebido < total) {
+            System.out.println("Faltam R$ " + (total - recebido));
+        } else {
+            System.out.println("Troco: R$ " + (recebido - total));
+        }
+    }
+
+    public static void mostrarVendas(List<String> registroVendas) {
+        if (registroVendas.isEmpty()) {
+            System.out.println("Nenhuma venda registrada.");
+        } else {
+            System.out.println("=== Registro de Vendas ===");
+            for (String venda : registroVendas) {
+                System.out.println(venda);
+            }
+        }
+    }
+}
